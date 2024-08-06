@@ -26,6 +26,7 @@ import {
     try {
       const requestUrl = new URL(req.url);
       const { toPubkey, amount } = validatedQueryParams(requestUrl);
+      console.log("requestUrl", requestUrl);
 
       const baseHref = new URL(
         `/api/actions/donate?to=${toPubkey.toBase58()}`,
@@ -35,7 +36,7 @@ import {
       const payload: ActionGetResponse = {
         title: DEFAULT_TITLE,
         icon:
-          DEFAULT_AVATOR ?? new URL("/avator.jpg", requestUrl.origin).toString(),
+          DEFAULT_AVATOR ?? new URL("/my_icon.jpg", requestUrl.origin).toString(),
         description: DEFAULT_DESCRIPTION,
         label: "Transfer", // this value will be ignored since `links.actions` exists
         links: {

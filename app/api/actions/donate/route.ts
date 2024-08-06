@@ -15,7 +15,7 @@ import {
     clusterApiUrl,
   } from "@solana/web3.js";
 
-  export const DEFAULT_RPC = process.env.RPC_URL_MAINNET ?? clusterApiUrl("mainnet-beta");
+  const DEFAULT_RPC = process.env.RPC_URL_MAINNET ?? clusterApiUrl("mainnet-beta");
   const DEFAULT_SOL_ADDRESS = new PublicKey("CKZGWXyLDRY2QGT6cRokNJkMnwXzyUF5RyAvQVJCwWKp")
   const DEFAULT_SOL_AMOUNT = 0.1;
   const DEFAULT_TITLE = "向 Shuang-Zi 转账"

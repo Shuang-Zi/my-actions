@@ -19,7 +19,6 @@ import {
   const DEFAULT_SOL_ADDRESS = new PublicKey("CKZGWXyLDRY2QGT6cRokNJkMnwXzyUF5RyAvQVJCwWKp")
   const DEFAULT_SOL_AMOUNT = 0.1;
   const DEFAULT_TITLE = "向 Shuang-Zi 转账"
-  const DEFAULT_AVATOR = process.env.AVATAR
   const DEFAULT_DESCRIPTION = "感谢您对 Shuang-Zi 的支持，您的每一次捐赠都是对 Shuang-Zi 的鼓励和肯定。"
 
   export const GET = async (req: Request) => {
@@ -36,7 +35,7 @@ import {
       const payload: ActionGetResponse = {
         title: DEFAULT_TITLE,
         icon:
-          DEFAULT_AVATOR ?? new URL("/my_icon.jpg", requestUrl.origin).toString(),
+          new URL("/my_icon.jpg", requestUrl.origin).toString(),
         description: DEFAULT_DESCRIPTION,
         label: "Transfer", // this value will be ignored since `links.actions` exists
         links: {
@@ -46,23 +45,8 @@ import {
               href: `${baseHref}&amount=${amount}`,
             },
             {
-              label: `Send ${amount * 5} SOL`, // button text
-              href: `${baseHref}&amount=${amount * 5}`,
-            },
-            {
-              label: `Send ${amount * 10} SOL`, // button text
-              href: `${baseHref}&amount=${amount * 10}`,
-            },
-            {
-              label: "Send SOL", // button text
-              href: `${baseHref}&amount={amount}`, // this href will have a text input
-              parameters: [
-                {
-                  name: "amount", // parameter name in the `href` above
-                  label: "Enter the amount of SOL to send", // placeholder of the text input
-                  required: true,
-                },
-              ],
+              label: "search", // button text
+              href: `/api/actions/donate?action=search`,
             },
           ],
         },
@@ -88,10 +72,14 @@ import {
   export const POST = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
+      console.log("requestUrl", requestUrl);
       const { amount, toPubkey } = validatedQueryParams(requestUrl);
 
       const body: ActionPostRequest = await req.json();
+      if (requestUrl.searchParams.get("action")) {
+        console.log("search action!!");
 
+      }
       // validate the client provided input
       let account: PublicKey;
       try {
